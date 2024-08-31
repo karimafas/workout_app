@@ -8,14 +8,14 @@ part of 'workout_set.dart';
 
 WorkoutSet _$WorkoutSetFromJson(Map<String, dynamic> json) => WorkoutSet(
       exercise: $enumDecode(_$ExerciseEnumMap, json['exercise']),
-      weight: (json['weight'] as num).toDouble(),
+      weightInKg: (json['weightInKg'] as num).toDouble(),
       repetitions: (json['repetitions'] as num).toInt(),
     );
 
 Map<String, dynamic> _$WorkoutSetToJson(WorkoutSet instance) =>
     <String, dynamic>{
       'exercise': _$ExerciseEnumMap[instance.exercise]!,
-      'weight': instance.weight,
+      'weightInKg': instance.weightInKg,
       'repetitions': instance.repetitions,
     };
 

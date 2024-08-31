@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:magic_workout_app/app/home/presentation/bloc/home_bloc.dart';
 import 'package:magic_workout_app/app/home/presentation/widgets/empty_workout_list.dart';
 import 'package:magic_workout_app/app/home/presentation/widgets/workout_card.dart';
-import 'package:magic_workout_app/core/constants/style_constants.dart';
 import 'package:magic_workout_app/core/extensions/build_context_extension.dart';
+import 'package:magic_workout_app/core/router/app_route.dart';
 import 'package:magic_workout_app/core/widgets/app_floating_button.dart';
+import 'package:magic_workout_app/core/widgets/screen_with_title.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -36,7 +38,8 @@ class _HomeViewState extends State<HomeView> {
     );
 
     if (state is HomeWorkoutsRetrievalError) {
-      body = Center(
+      body = Padding(
+        padding: const EdgeInsets.all(20),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -50,28 +53,20 @@ class _HomeViewState extends State<HomeView> {
         ),
       );
     } else if (state is HomeWorkoutsRetrieved) {
-      body = Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+      body = ScreenWithTitle(
+        title: 'Your Workouts',
         children: [
-          Text(
-            'Your Workouts',
-            style: context.textTheme.titleLarge,
-          ),
-          const SizedBox(height: 20),
           Expanded(
             child: ListView(
               children: state.workouts.isEmpty
                   ? [const SizedBox(height: 80), const EmptyWorkoutList()]
                   : state.workouts
-                      .map(
-                        (w) => WorkoutCard(
+                      .map((w) => WorkoutCard(
                           name: w.name,
                           numberOfSets: w.sets.length,
                           averageWeight: w.averageWeight,
                           createdAt: w.createdAt,
-                          onDelete: () {},
-                        ),
-                      )
+                          onDelete: () {}))
                       .toList(),
             ),
           )
@@ -84,14 +79,9 @@ class _HomeViewState extends State<HomeView> {
           ? null
           : AppFloatingButton(
               icon: Icons.add_rounded,
-              onTap: createWorkout,
+              onTap: () => createWorkout(context),
             ),
-      body: SafeArea(
-        child: Padding(
-          padding: commonScreenPadding,
-          child: body,
-        ),
-      ),
+      body: body,
     );
   }
 
@@ -101,5 +91,6 @@ class _HomeViewState extends State<HomeView> {
     context.read<HomeBloc>().add(const RetrieveWorkouts());
   }
 
-  void createWorkout() {}
+  void createWorkout(BuildContext context) =>
+      context.push(AppRoute.createWorkout.path);
 }

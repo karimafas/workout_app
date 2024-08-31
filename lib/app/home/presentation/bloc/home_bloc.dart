@@ -19,14 +19,15 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       RetrieveWorkouts event, Emitter<HomeState> emit) async {
     emit(const HomeLoading());
 
-    (await retrieveWorkoutsUseCase.call(NoParams())).fold(
-      onSuccess: (workouts) => emit(
-        HomeWorkoutsRetrieved(workouts: workouts),
-      ),
-      onException: (exception) {
-        logger.error(exception.toString());
-        emit(const HomeWorkoutsRetrievalError());
-      },
-    );
+    try {
+      emit(
+        HomeWorkoutsRetrieved(
+          workouts: await retrieveWorkoutsUseCase.call(NoParams()),
+        ),
+      );
+    } catch (e) {
+      logger.error(e);
+      emit(const HomeWorkoutsRetrievalError());
+    }
   }
 }

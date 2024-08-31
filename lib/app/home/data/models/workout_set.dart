@@ -7,7 +7,7 @@ part 'workout_set.g.dart';
 class WorkoutSet {
   WorkoutSet({
     required this.exercise,
-    required this.weight,
+    required this.weightInKg,
     required this.repetitions,
   });
   
@@ -15,7 +15,7 @@ class WorkoutSet {
       _$WorkoutSetFromJson(json);
 
   final Exercise exercise;
-  final double weight;
+  final double weightInKg;
   final int repetitions;
 
   Map<String, dynamic> toJson() => _$WorkoutSetToJson(this);

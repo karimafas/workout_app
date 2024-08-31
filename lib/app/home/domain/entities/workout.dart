@@ -12,6 +12,6 @@ class Workout extends WorkoutModel {
       return 0;
     }
 
-    return sets.fold(0.0, (sum, set) => sum + set.weight) / sets.length;
+    return sets.fold(0.0, (sum, set) => sum + set.weightInKg) / sets.length;
   }
 }

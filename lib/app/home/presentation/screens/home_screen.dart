@@ -33,6 +33,7 @@ class HomeScreen extends StatelessWidget {
                       numberOfSets: 10,
                       averageWeight: 40,
                       createdAt: DateTime.now(),
+                      onDelete: () {},
                     )
                   ],
                 ),

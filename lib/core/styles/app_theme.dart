@@ -9,6 +9,7 @@ final appTheme = ThemeData(
     primary: AppColors.lightGreen,
     secondary: AppColors.darkGreen,
     surface: AppColors.black,
+    tertiary: AppColors.white,
     brightness: Brightness.dark,
   ),
   textTheme: TextTheme(

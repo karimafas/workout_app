@@ -4,14 +4,16 @@ import 'package:magic_workout_app/core/extensions/build_context_extension.dart';
 class AppFloatingButton extends StatelessWidget {
   const AppFloatingButton({
     required this.icon,
-    required this.onTap,
+    this.onTap,
     super.key,
     this.size = 50,
+    this.color,
   });
 
   final IconData icon;
-  final Function() onTap;
+  final Function()? onTap;
   final double size;
+  final Color? color;
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +23,7 @@ class AppFloatingButton extends StatelessWidget {
         height: size,
         width: size,
         decoration: BoxDecoration(
-          color: context.colorScheme.primary,
+          color: color ?? context.colorScheme.primary,
           borderRadius: BorderRadius.circular(15),
         ),
         child: Center(

@@ -1,23 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:magic_workout_app/app/home/domain/entities/workout.dart';
 import 'package:magic_workout_app/core/assets/app_image.dart';
-import 'package:magic_workout_app/core/constants/date_format_constants.dart';
 import 'package:magic_workout_app/core/extensions/build_context_extension.dart';
+import 'package:magic_workout_app/core/router/app_route.dart';
 import 'package:magic_workout_app/core/widgets/app_floating_button.dart';
 
 class WorkoutCard extends StatelessWidget {
   const WorkoutCard({
-    required this.name,
-    required this.numberOfSets,
-    required this.averageWeight,
-    required this.createdAt,
+    required this.workout,
     required this.onDelete,
     super.key,
   });
 
-  final String name;
-  final int numberOfSets;
-  final double averageWeight;
-  final DateTime createdAt;
+  final Workout workout;
   final Function() onDelete;
 
   @override
@@ -36,74 +32,80 @@ class WorkoutCard extends StatelessWidget {
         ),
       ),
       onDismissed: (_) => onDelete(),
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 20),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(18),
-          color: context.colorScheme.primary,
+      child: GestureDetector(
+        onTap: () => context.push(
+          AppRoute.workoutDetail.path,
+          extra: workout,
         ),
-        height: 90,
-        width: double.infinity,
-        child: Row(
-          children: [
-            Image.asset(
-              AppImage.deadlift.path,
-              height: 30,
-            ),
-            const SizedBox(width: 15),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  name,
-                  style: context.textTheme.bodyMedium!.copyWith(
-                    fontWeight: FontWeight.bold,
-                    color: context.colorScheme.surface,
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 20),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(18),
+            color: context.colorScheme.primary,
+          ),
+          height: 90,
+          width: double.infinity,
+          child: Row(
+            children: [
+              Image.asset(
+                AppImage.deadlift.path,
+                height: 30,
+              ),
+              const SizedBox(width: 15),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    workout.name,
+                    style: context.textTheme.bodyMedium!.copyWith(
+                      fontWeight: FontWeight.bold,
+                      color: context.colorScheme.surface,
+                    ),
                   ),
-                ),
-                const SizedBox(height: 3),
-                RichText(
-                  text: TextSpan(
-                    children: [
-                      TextSpan(
-                        text: '$numberOfSets ',
-                        style: context.textTheme.bodySmall!.copyWith(
-                          color: context.colorScheme.surface,
-                          fontWeight: FontWeight.bold,
+                  const SizedBox(height: 3),
+                  RichText(
+                    text: TextSpan(
+                      children: [
+                        TextSpan(
+                          text: '${workout.sets.length} ',
+                          style: context.textTheme.bodySmall!.copyWith(
+                            color: context.colorScheme.surface,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
-                      ),
-                      TextSpan(
-                        text: 'sets • ',
-                        style: context.textTheme.bodySmall!.copyWith(
-                          color: context.colorScheme.surface,
+                        TextSpan(
+                          text: 'sets • ',
+                          style: context.textTheme.bodySmall!.copyWith(
+                            color: context.colorScheme.surface,
+                          ),
                         ),
-                      ),
-                      TextSpan(
-                        text: averageWeight.toStringAsFixed(1),
-                        style: context.textTheme.bodySmall!.copyWith(
-                          color: context.colorScheme.surface,
-                          fontWeight: FontWeight.bold,
+                        TextSpan(
+                          text: workout.averageWeight.toStringAsFixed(1),
+                          style: context.textTheme.bodySmall!.copyWith(
+                            color: context.colorScheme.surface,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
-                      ),
-                      TextSpan(
-                        text: 'kg avg. weight',
-                        style: context.textTheme.bodySmall!.copyWith(
-                          color: context.colorScheme.surface,
+                        TextSpan(
+                          text: 'kg avg. weight',
+                          style: context.textTheme.bodySmall!.copyWith(
+                            color: context.colorScheme.surface,
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
-                ),
-                Text(
-                  'Created on ${commonDateFormat.format(createdAt)}',
-                  style: context.textTheme.bodySmall!.copyWith(
-                    color: context.colorScheme.secondary,
+                  Text(
+                    workout.formattedCreationDate,
+                    style: context.textTheme.bodySmall!.copyWith(
+                      color: context.colorScheme.secondary,
+                    ),
                   ),
-                ),
-              ],
-            ),
-          ],
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );

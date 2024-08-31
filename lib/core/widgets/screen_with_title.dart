@@ -5,15 +5,15 @@ import 'package:magic_workout_app/core/widgets/screen_back_button.dart';
 
 class ScreenWithTitle extends StatelessWidget {
   const ScreenWithTitle({
-    required this.children,
     required this.title,
+    required this.children,
     this.showBackButton = false,
     super.key,
   });
 
+  final String title;
   final List<Widget> children;
   final bool showBackButton;
-  final String title;
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +33,6 @@ class ScreenWithTitle extends StatelessWidget {
               ],
             ),
           ),
-          const SizedBox(height: 20),
           ...children,
         ],
       ),

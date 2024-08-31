@@ -1,4 +1,5 @@
 import 'package:magic_workout_app/app/home/data/models/workout_model.dart';
+import 'package:magic_workout_app/core/constants/date_format_constants.dart';
 
 class Workout extends WorkoutModel {
   Workout({
@@ -15,4 +16,7 @@ class Workout extends WorkoutModel {
 
     return sets.fold(0.0, (sum, set) => sum + set.weightInKg) / sets.length;
   }
+
+  String get formattedCreationDate =>
+      'Created on ${commonDateFormat.format(createdAt)}';
 }

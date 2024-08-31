@@ -55,13 +55,11 @@ class _HomeScreenState extends State<HomeScreen> {
                           padding: EdgeInsets.only(
                               bottom: w == state.workouts.last ? 0 : 15),
                           child: WorkoutCard(
-                              name: w.name,
-                              numberOfSets: w.sets.length,
-                              averageWeight: w.averageWeight,
-                              createdAt: w.createdAt,
-                              onDelete: () => context
-                                  .read<HomeBloc>()
-                                  .add(DeleteWorkout(w.id))),
+                            workout: w,
+                            onDelete: () => context.read<HomeBloc>().add(
+                                  DeleteWorkout(w.id),
+                                ),
+                          ),
                         ),
                       )
                       .toList(),

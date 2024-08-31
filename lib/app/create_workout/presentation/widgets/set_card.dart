@@ -7,14 +7,16 @@ class SetCard extends StatelessWidget {
     required this.name,
     required this.repetitions,
     required this.weightInKg,
-    required this.onDelete,
+    this.isDismissible = true,
+    this.onDelete,
     super.key,
   });
 
   final String name;
   final int repetitions;
   final double weightInKg;
-  final Function() onDelete;
+  final Function()? onDelete;
+  final bool isDismissible;
 
   @override
   Widget build(BuildContext context) {
@@ -30,9 +32,67 @@ class SetCard extends StatelessWidget {
       color: context.colorScheme.surface,
     );
 
+    Widget widget = Container(
+      padding: const EdgeInsets.symmetric(horizontal: 20),
+      height: 60,
+      decoration: BoxDecoration(
+        color: context.colorScheme.tertiary,
+        borderRadius: BorderRadius.circular(18),
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            name,
+            style: boldMedium,
+          ),
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              RichText(
+                textAlign: TextAlign.end,
+                text: TextSpan(
+                  children: [
+                    TextSpan(
+                      text: '$repetitions ',
+                      style: boldSmall,
+                    ),
+                    TextSpan(
+                      text: 'repetitions',
+                      style: small,
+                    ),
+                  ],
+                ),
+              ),
+              RichText(
+                textAlign: TextAlign.end,
+                text: TextSpan(
+                  children: [
+                    TextSpan(
+                      text: '$weightInKg',
+                      style: boldSmall,
+                    ),
+                    TextSpan(
+                      text: 'kg',
+                      style: small,
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          )
+        ],
+      ),
+    );
+
+    if (!isDismissible) {
+      return widget;
+    }
+
     return Dismissible(
       direction: DismissDirection.endToStart,
-      onDismissed: (_) => onDelete(),
+      onDismissed: (_) => onDelete?.call(),
       background: Align(
         alignment: Alignment.centerRight,
         child: Padding(
@@ -45,59 +105,7 @@ class SetCard extends StatelessWidget {
         ),
       ),
       key: UniqueKey(),
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 20),
-        height: 60,
-        decoration: BoxDecoration(
-          color: context.colorScheme.tertiary,
-          borderRadius: BorderRadius.circular(18),
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(
-              name,
-              style: boldMedium,
-            ),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                RichText(
-                  textAlign: TextAlign.end,
-                  text: TextSpan(
-                    children: [
-                      TextSpan(
-                        text: '$repetitions ',
-                        style: boldSmall,
-                      ),
-                      TextSpan(
-                        text: 'repetitions',
-                        style: small,
-                      ),
-                    ],
-                  ),
-                ),
-                RichText(
-                  textAlign: TextAlign.end,
-                  text: TextSpan(
-                    children: [
-                      TextSpan(
-                        text: '$weightInKg',
-                        style: boldSmall,
-                      ),
-                      TextSpan(
-                        text: 'kg',
-                        style: small,
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            )
-          ],
-        ),
-      ),
+      child: widget,
     );
   }
 }

@@ -9,26 +9,14 @@ import 'package:magic_workout_app/core/router/app_route.dart';
 import 'package:magic_workout_app/core/widgets/app_floating_button.dart';
 import 'package:magic_workout_app/core/widgets/screen_with_title.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return BlocProvider<HomeBloc>(
-      create: (_) => HomeBloc(),
-      child: const HomeView(),
-    );
-  }
+  State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class HomeView extends StatefulWidget {
-  const HomeView({super.key});
-
-  @override
-  State<HomeView> createState() => _HomeViewState();
-}
-
-class _HomeViewState extends State<HomeView> {
+class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     final state = context.watch<HomeBloc>().state;
@@ -58,15 +46,24 @@ class _HomeViewState extends State<HomeView> {
         children: [
           Expanded(
             child: ListView(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
               children: state.workouts.isEmpty
                   ? [const SizedBox(height: 80), const EmptyWorkoutList()]
                   : state.workouts
-                      .map((w) => WorkoutCard(
-                          name: w.name,
-                          numberOfSets: w.sets.length,
-                          averageWeight: w.averageWeight,
-                          createdAt: w.createdAt,
-                          onDelete: () {}))
+                      .map(
+                        (w) => Padding(
+                          padding: EdgeInsets.only(
+                              bottom: w == state.workouts.last ? 0 : 15),
+                          child: WorkoutCard(
+                              name: w.name,
+                              numberOfSets: w.sets.length,
+                              averageWeight: w.averageWeight,
+                              createdAt: w.createdAt,
+                              onDelete: () => context
+                                  .read<HomeBloc>()
+                                  .add(DeleteWorkout(w.id))),
+                        ),
+                      )
                       .toList(),
             ),
           )
@@ -74,14 +71,21 @@ class _HomeViewState extends State<HomeView> {
       );
     }
 
-    return Scaffold(
-      floatingActionButton: state is! HomeWorkoutsRetrieved
-          ? null
-          : AppFloatingButton(
-              icon: Icons.add_rounded,
-              onTap: () => createWorkout(context),
-            ),
-      body: body,
+    return BlocListener<HomeBloc, HomeState>(
+      listener: (context, state) {
+        if (state is HomeWorkoutsDeletionError) {
+          context.showToast('There was an issue deleting your workout.');
+        }
+      },
+      child: Scaffold(
+        floatingActionButton: state is! HomeWorkoutsRetrieved
+            ? null
+            : AppFloatingButton(
+                icon: Icons.add_rounded,
+                onTap: () => createWorkout(context),
+              ),
+        body: body,
+      ),
     );
   }
 

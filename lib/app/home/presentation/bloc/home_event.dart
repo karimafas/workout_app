@@ -7,3 +7,9 @@ abstract class HomeEvent {
 class RetrieveWorkouts extends HomeEvent {
   const RetrieveWorkouts();
 }
+
+class DeleteWorkout extends HomeEvent {
+  const DeleteWorkout(this.id);
+
+  final String id;
+}

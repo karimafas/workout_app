@@ -21,3 +21,7 @@ class HomeWorkoutsRetrieved extends HomeState {
 class HomeWorkoutsRetrievalError extends HomeState {
   const HomeWorkoutsRetrievalError();
 }
+
+class HomeWorkoutsDeletionError extends HomeState {
+  const HomeWorkoutsDeletionError();
+}

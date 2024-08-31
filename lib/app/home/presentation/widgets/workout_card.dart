@@ -35,19 +35,20 @@ class WorkoutCard extends StatelessWidget {
           ),
         ),
       ),
+      onDismissed: (_) => onDelete(),
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 20),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(18),
           color: context.colorScheme.primary,
         ),
-        height: 110,
+        height: 90,
         width: double.infinity,
         child: Row(
           children: [
             Image.asset(
               AppImage.deadlift.path,
-              height: 35,
+              height: 30,
             ),
             const SizedBox(width: 15),
             Column(
@@ -79,7 +80,7 @@ class WorkoutCard extends StatelessWidget {
                         ),
                       ),
                       TextSpan(
-                        text: averageWeight.toStringAsFixed(0),
+                        text: averageWeight.toStringAsFixed(1),
                         style: context.textTheme.bodySmall!.copyWith(
                           color: context.colorScheme.surface,
                           fontWeight: FontWeight.bold,

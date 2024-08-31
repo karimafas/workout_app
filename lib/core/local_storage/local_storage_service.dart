@@ -9,19 +9,19 @@ enum StorageKey {
 }
 
 class LocalStorageService {
-  late Box<List<Map<String, dynamic>>> workoutsBox;
+  late Box<List<dynamic>> workoutsBox;
 
   Future<void> init() async {
     await Hive.initFlutter();
     workoutsBox = await Hive.openBox(HiveBox.workouts.name);
   }
 
-  void saveData(StorageKey key, List<Map<String, dynamic>> data) =>
+  void saveData(StorageKey key, List<dynamic> data) =>
       workoutsBox.put(key.name, data);
 
-  List<Map<String, dynamic>>? retrieveData(
+  List<dynamic>? retrieveData(
     StorageKey key,
-    List<Map<String, dynamic>> defaultValue,
+    List<dynamic> defaultValue,
   ) =>
       workoutsBox.get(key.name, defaultValue: defaultValue);
 }

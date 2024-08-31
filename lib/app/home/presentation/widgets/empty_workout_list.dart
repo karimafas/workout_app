@@ -14,7 +14,7 @@ class EmptyWorkoutList extends StatelessWidget {
         ),
         const SizedBox(height: 15),
         Text(
-          "You haven't added a workout yet...",
+          "You haven't added any workouts yet...",
           style: context.textTheme.bodySmall,
         )
       ],

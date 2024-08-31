@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:magic_workout_app/core/router/app_router.dart';
 import 'package:magic_workout_app/core/styles/app_theme.dart';
 
 void main() {
@@ -8,12 +9,13 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return MaterialApp.router(
       title: 'Workout App',
       theme: appTheme,
+      debugShowCheckedModeBanner: false,
+      routerConfig: appRouter,
     );
   }
 }

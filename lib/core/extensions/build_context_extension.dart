@@ -5,5 +5,10 @@ extension BuildContextExtension on BuildContext {
   ColorScheme get colorScheme => Theme.of(this).colorScheme;
 
   void showToast(String message) =>
-      ScaffoldMessenger.of(this).showSnackBar(SnackBar(content: Text(message)));
+      ScaffoldMessenger.of(this).showSnackBar(SnackBar(
+          backgroundColor: colorScheme.surface,
+          content: Text(
+            message,
+            style: textTheme.bodySmall,
+          )));
 }

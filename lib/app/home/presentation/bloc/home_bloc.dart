@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:equatable/equatable.dart';
 import 'package:magic_workout_app/app/home/domain/entities/workout.dart';
 import 'package:magic_workout_app/app/home/domain/usecases/delete_workout_use_case.dart';
 import 'package:magic_workout_app/app/home/domain/usecases/retrieve_workouts_use_case.dart';
@@ -37,11 +38,20 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
 
   Future<void> _deleteWorkout(
       DeleteWorkout event, Emitter<HomeState> emit) async {
+    if (state is! HomeWorkoutsRetrieved) {
+      return;
+    }
+
+    final workouts = (state as HomeWorkoutsRetrieved).workouts;
+
     try {
+      emit(HomeWorkoutsRetrieved(
+          workouts: [...workouts].where((w) => w.id != event.id).toList()));
       await deleteWorkoutUseCase.call(event.id);
     } catch (e) {
       logger.error(e);
       emit(const HomeWorkoutsDeletionError());
+      emit(HomeWorkoutsRetrieved(workouts: workouts));
     }
   }
 }

@@ -32,7 +32,7 @@ class SetCard extends StatelessWidget {
       color: context.colorScheme.surface,
     );
 
-    Widget widget = Container(
+    final widget = Container(
       padding: const EdgeInsets.symmetric(horizontal: 20),
       height: 60,
       decoration: BoxDecoration(

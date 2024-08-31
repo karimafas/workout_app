@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:magic_workout_app/app/create_workout/presentation/screens/create_workout_screen.dart';
 import 'package:magic_workout_app/app/home/presentation/bloc/home_bloc.dart';
 import 'package:magic_workout_app/app/home/presentation/widgets/empty_workout_list.dart';
 import 'package:magic_workout_app/app/home/presentation/widgets/workout_card.dart';
@@ -93,6 +94,11 @@ class _HomeScreenState extends State<HomeScreen> {
     context.read<HomeBloc>().add(const RetrieveWorkouts());
   }
 
-  void createWorkout(BuildContext context) =>
-      context.push(AppRoute.createWorkout.path);
+  void createWorkout(BuildContext context) => context.push(
+        AppRoute.createWorkout.path,
+        extra: (
+          screenType: CreateWorkoutScreenType.create,
+          workoutToEdit: null,
+        ),
+      );
 }

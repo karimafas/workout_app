@@ -1,6 +1,7 @@
 import 'package:get_it/get_it.dart';
 import 'package:magic_workout_app/app/create_workout/data/repositories/create_workout_repository_impl.dart';
 import 'package:magic_workout_app/app/create_workout/domain/usecases/create_workout_use_case.dart';
+import 'package:magic_workout_app/app/create_workout/domain/usecases/update_workout_use_case.dart';
 import 'package:magic_workout_app/app/home/data/repositories/home_repository_impl.dart';
 import 'package:magic_workout_app/app/home/domain/repositories/home_repository.dart';
 import 'package:magic_workout_app/app/home/domain/usecases/delete_workout_use_case.dart';
@@ -30,6 +31,8 @@ class ServiceLocator {
       ..registerSingleton<DeleteWorkoutUseCase>(
           DeleteWorkoutUseCase(homeRepository))
       ..registerSingleton<CreateWorkoutUseCase>(
-          CreateWorkoutUseCase(createWorkoutRepository));
+          CreateWorkoutUseCase(createWorkoutRepository))
+      ..registerSingleton<UpdateWorkoutUseCase>(
+          UpdateWorkoutUseCase(createWorkoutRepository));
   }
 }

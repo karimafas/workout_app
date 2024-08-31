@@ -13,7 +13,16 @@ final appRouter = GoRouter(
     ),
     GoRoute(
       path: AppRoute.createWorkout.path,
-      builder: (context, state) => const CreateWorkoutScreen(),
+      builder: (context, state) {
+        final extra = state.extra as ({
+          CreateWorkoutScreenType screenType,
+          Workout? workoutToEdit
+        });
+        return CreateWorkoutScreen(
+          screenType: extra.screenType,
+          workoutToEdit: extra.workoutToEdit,
+        );
+      },
     ),
     GoRoute(
       path: AppRoute.workoutDetail.path,

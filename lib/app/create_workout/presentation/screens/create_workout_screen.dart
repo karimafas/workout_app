@@ -6,6 +6,7 @@ import 'package:magic_workout_app/app/create_workout/presentation/widgets/create
 import 'package:magic_workout_app/app/create_workout/presentation/widgets/set_card.dart';
 import 'package:magic_workout_app/app/home/data/models/workout_model.dart';
 import 'package:magic_workout_app/app/home/data/models/workout_set.dart';
+import 'package:magic_workout_app/app/home/domain/entities/workout.dart';
 import 'package:magic_workout_app/app/home/presentation/bloc/home_bloc.dart';
 import 'package:magic_workout_app/core/extensions/build_context_extension.dart';
 import 'package:magic_workout_app/core/service_locator/service_locator.dart';
@@ -14,27 +15,51 @@ import 'package:magic_workout_app/core/widgets/app_floating_button.dart';
 import 'package:magic_workout_app/core/widgets/screen_with_title.dart';
 import 'package:uuid/uuid.dart';
 
+enum CreateWorkoutScreenType {
+  create,
+  edit;
+
+  bool get isEditing => this == CreateWorkoutScreenType.edit;
+}
+
 class CreateWorkoutScreen extends StatelessWidget {
-  const CreateWorkoutScreen({super.key});
+  const CreateWorkoutScreen({
+    required this.screenType,
+    this.workoutToEdit,
+    super.key,
+  });
+
+  final CreateWorkoutScreenType screenType;
+  final Workout? workoutToEdit;
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider<CreateWorkoutBloc>(
       create: (_) => CreateWorkoutBloc(),
-      child: const CreateWorkoutView(),
+      child: CreateWorkoutView(
+        screenType: screenType,
+        workoutToEdit: workoutToEdit,
+      ),
     );
   }
 }
 
 class CreateWorkoutView extends StatefulWidget {
-  const CreateWorkoutView({super.key});
+  const CreateWorkoutView({
+    required this.screenType,
+    required this.workoutToEdit,
+    super.key,
+  });
+
+  final CreateWorkoutScreenType screenType;
+  final Workout? workoutToEdit;
 
   @override
   State<CreateWorkoutView> createState() => _CreateWorkoutViewState();
 }
 
 class _CreateWorkoutViewState extends State<CreateWorkoutView> {
-  final List<WorkoutSet> sets = [];
+  List<WorkoutSet> sets = [];
   final TextEditingController nameController = TextEditingController();
 
   @override
@@ -44,15 +69,27 @@ class _CreateWorkoutViewState extends State<CreateWorkoutView> {
         if (state is CreateWorkoutSuccess) {
           context.read<HomeBloc>().add(const RetrieveWorkouts());
           context.pop();
+        } else if (state is UpdateWorkoutSuccess) {
+          context.read<HomeBloc>().add(const RetrieveWorkouts());
+          context.pop(state.updatedWorkout);
         } else if (state is CreateWorkoutFailure) {
           context.showToast('There was an issue creating your workout.');
+        } else if (state is UpdateWorkoutFailure) {
+          context.showToast('There was an issue updating your workout.');
         }
       },
       child: Scaffold(
         floatingActionButton: AppButton(
-          title: 'Create Workout',
+          title:
+              '${widget.screenType == CreateWorkoutScreenType.create ? 'Create' : 'Save'} Workout',
           icon: Icons.sports_martial_arts_rounded,
-          onTap: () => createWorkout(context),
+          onTap: () {
+            if (widget.screenType.isEditing) {
+              updateWorkout(context);
+            } else {
+              createWorkout(context);
+            }
+          },
           disabled: nameController.text.trim().isEmpty || sets.isEmpty,
           isLoading:
               context.watch<CreateWorkoutBloc>().state is CreateWorkoutLoading,
@@ -61,7 +98,9 @@ class _CreateWorkoutViewState extends State<CreateWorkoutView> {
         body: GestureDetector(
           onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
           child: ScreenWithTitle(
-            title: 'Create a Workout',
+            key: ValueKey(widget.screenType),
+            title:
+                '${widget.screenType == CreateWorkoutScreenType.create ? 'Create a' : 'Edit'} Workout',
             showBackButton: true,
             children: [
               Expanded(
@@ -126,6 +165,21 @@ class _CreateWorkoutViewState extends State<CreateWorkoutView> {
     );
   }
 
+  @override
+  void initState() {
+    super.initState();
+    if (widget.screenType.isEditing) {
+      nameController.text = widget.workoutToEdit?.name ?? '';
+      sets = widget.workoutToEdit?.sets ?? [];
+    }
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    nameController.dispose();
+  }
+
   void createWorkout(BuildContext context) {
     final workout = WorkoutModel(
       id: serviceLocator.get<Uuid>().v4(),
@@ -134,5 +188,19 @@ class _CreateWorkoutViewState extends State<CreateWorkoutView> {
       sets: sets,
     );
     context.read<CreateWorkoutBloc>().add(CreateWorkout(workout: workout));
+  }
+
+  void updateWorkout(BuildContext context) {
+    if (widget.workoutToEdit == null) {
+      return;
+    }
+
+    final workout = WorkoutModel(
+      id: widget.workoutToEdit!.id,
+      name: nameController.text,
+      createdAt: DateTime.now(),
+      sets: sets,
+    );
+    context.read<CreateWorkoutBloc>().add(UpdateWorkout(workout: workout));
   }
 }

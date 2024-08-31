@@ -19,3 +19,12 @@ class CreateWorkoutSuccess extends CreateWorkoutState {
 class CreateWorkoutFailure extends CreateWorkoutState {
   const CreateWorkoutFailure();
 }
+
+class UpdateWorkoutSuccess extends CreateWorkoutState {
+  const UpdateWorkoutSuccess({required this.updatedWorkout});
+  final Workout updatedWorkout;
+}
+
+class UpdateWorkoutFailure extends CreateWorkoutState {
+  const UpdateWorkoutFailure();
+}

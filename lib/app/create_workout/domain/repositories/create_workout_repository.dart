@@ -6,4 +6,5 @@ abstract class CreateWorkoutRepository {
   LocalStorageService get localStorageService;
 
   Future<Workout> saveWorkout(WorkoutModel workout);
+  Future<Workout> updateWorkout(WorkoutModel workout);
 }

@@ -14,19 +14,40 @@ class CreateWorkoutRepositoryImpl implements CreateWorkoutRepository {
     // Introduced this delay to simulate remote fetching.
     await Future.delayed(const Duration(seconds: 1));
 
-    // Here, we have to reload all workouts in order to add a new one to the list. This is inevitable due to the fact that we are "mocking" the API behaviour on the frontend.
-    final allSavedWorkouts =
+    final savedWorkouts = _retrieveSavedWorkouts();
+
+    localStorageService.saveData(
+      StorageKey.workouts,
+      [...savedWorkouts, workout.toJson()],
+    );
+
+    return workout.toEntity();
+  }
+
+  @override
+  Future<Workout> updateWorkout(WorkoutModel workout) async {
+    // Introduced this delay to simulate remote fetching.
+    await Future.delayed(const Duration(seconds: 1));
+
+    final workouts = _retrieveSavedWorkouts()
+        .map((w) => Map<String, dynamic>.from(w as Map)['id'] == workout.id
+            ? w = workout.toJson()
+            : w)
+        .toList();
+
+    localStorageService.saveData(StorageKey.workouts, workouts);
+
+    return workout.toEntity();
+  }
+
+  List<dynamic> _retrieveSavedWorkouts() {
+    final savedWorkouts =
         localStorageService.retrieveData(StorageKey.workouts, []);
-    if (allSavedWorkouts == null) {
+    if (savedWorkouts == null) {
       throw Exception(
           'No workouts were found when trying to save a new workout.');
     }
 
-    localStorageService.saveData(
-      StorageKey.workouts,
-      [...allSavedWorkouts, workout.toJson()],
-    );
-
-    return workout.toEntity();
+    return savedWorkouts;
   }
 }

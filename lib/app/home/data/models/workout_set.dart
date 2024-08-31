@@ -10,8 +10,13 @@ class WorkoutSet {
     required this.weight,
     required this.repetitions,
   });
+  
+  factory WorkoutSet.fromJson(Map<String, dynamic> json) =>
+      _$WorkoutSetFromJson(json);
 
   final Exercise exercise;
   final double weight;
   final int repetitions;
+
+  Map<String, dynamic> toJson() => _$WorkoutSetToJson(this);
 }

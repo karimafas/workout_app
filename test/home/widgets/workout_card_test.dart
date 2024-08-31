@@ -21,6 +21,7 @@ void main() {
             numberOfSets: numberOfSets,
             averageWeight: averageWeight,
             createdAt: createdAt,
+            onDelete: () {},
           ),
         ),
       );

@@ -1,12 +1,12 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'workout.dart';
+part of 'workout_model.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-Workout _$WorkoutFromJson(Map<String, dynamic> json) => Workout(
+WorkoutModel _$WorkoutModelFromJson(Map<String, dynamic> json) => WorkoutModel(
       name: json['name'] as String,
       createdAt: DateTime.parse(json['createdAt'] as String),
       sets: (json['sets'] as List<dynamic>)
@@ -14,7 +14,8 @@ Workout _$WorkoutFromJson(Map<String, dynamic> json) => Workout(
           .toList(),
     );
 
-Map<String, dynamic> _$WorkoutToJson(Workout instance) => <String, dynamic>{
+Map<String, dynamic> _$WorkoutModelToJson(WorkoutModel instance) =>
+    <String, dynamic>{
       'name': instance.name,
       'createdAt': instance.createdAt.toIso8601String(),
       'sets': instance.sets.map((e) => e.toJson()).toList(),

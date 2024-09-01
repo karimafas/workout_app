@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
 import 'package:magic_workout_app/app/home/domain/entities/workout.dart';
 import 'package:magic_workout_app/app/home/domain/usecases/delete_workout_use_case.dart';
 import 'package:magic_workout_app/app/home/domain/usecases/retrieve_workouts_use_case.dart';
@@ -10,10 +11,13 @@ part 'home_event.dart';
 part 'home_state.dart';
 
 class HomeBloc extends Bloc<HomeEvent, HomeState> {
-  HomeBloc() : super(const HomeInitial()) {
+  HomeBloc({this.homeState}) : super(homeState ?? const HomeInitial()) {
     on<RetrieveWorkouts>(_retrieveWorkouts);
     on<DeleteWorkout>(_deleteWorkout);
   }
+
+  @visibleForTesting
+  final HomeState? homeState;
 
   RetrieveWorkoutsUseCase get retrieveWorkoutsUseCase =>
       serviceLocator.get<RetrieveWorkoutsUseCase>();
@@ -43,10 +47,10 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     }
 
     final workouts = (state as HomeWorkoutsRetrieved).workouts;
+    emit(HomeWorkoutsRetrieved(
+        workouts: [...workouts].where((w) => w.id != event.id).toList()));
 
     try {
-      emit(HomeWorkoutsRetrieved(
-          workouts: [...workouts].where((w) => w.id != event.id).toList()));
       await deleteWorkoutUseCase.call(event.id);
     } catch (e) {
       logger.error(e);

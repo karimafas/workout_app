@@ -75,7 +75,8 @@ class WorkoutCard extends StatelessWidget {
                           ),
                         ),
                         TextSpan(
-                          text: 'sets • ',
+                          text:
+                              '${workout.sets.length == 1 ? 'set' : 'sets'} • ',
                           style: context.textTheme.bodySmall!.copyWith(
                             color: context.colorScheme.surface,
                           ),

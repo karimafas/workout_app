@@ -26,9 +26,13 @@ class ScreenWithTitle extends StatelessWidget {
             child: Row(
               children: [
                 if (showBackButton) const ScreenBackButton(),
-                Text(
-                  title,
-                  style: context.textTheme.titleLarge,
+                Flexible(
+                  child: Text(
+                    title,
+                    style: context.textTheme.titleLarge,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
                 ),
               ],
             ),

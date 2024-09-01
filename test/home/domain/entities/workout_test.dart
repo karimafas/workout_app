@@ -39,6 +39,7 @@ void main() {
       sets: [],
     );
 
-    expect(workout.formattedCreationDate, equals('Created on 31 Aug 2024'));
+    expect('Created on ${workout.creationDateFormatted}',
+        equals('Created on 31 Aug 2024'));
   });
 }

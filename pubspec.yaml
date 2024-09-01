@@ -12,6 +12,7 @@ dependencies:
   flutter:
     sdk: flutter
   cupertino_icons: ^1.0.6
+  easy_localization: ^3.0.7
   equatable: ^2.0.5
   flutter_bloc: ^8.1.6
   get_it: ^7.7.0
@@ -39,3 +40,4 @@ flutter:
 
   assets:
     - assets/images/
+    - assets/translations/

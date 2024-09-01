@@ -8,16 +8,18 @@ void main() {
   testWidgets(
     'EmptyWorkoutList should render correctly',
     (WidgetTester tester) async {
-      await tester.pumpWidget(
-        const TestWidgetWrapper(
+      await tester.runAsync(() async {
+        final widget = await buildLocalisedWidget(
+            child: const TestWidgetWrapper(
           widget: EmptyWorkoutList(),
-        ),
-      );
-      await tester.pumpAndSettle();
+        ));
+        await tester.pumpWidget(widget);
+        await tester.pumpAndSettle();
 
-      expect(find.byType(Icon), findsOneWidget);
-      expect(
-          find.text("You haven't added any workouts yet..."), findsOneWidget);
+        expect(find.byType(Icon), findsOneWidget);
+        expect(
+            find.text("You haven't added any workouts yet..."), findsOneWidget);
+      });
     },
   );
 }

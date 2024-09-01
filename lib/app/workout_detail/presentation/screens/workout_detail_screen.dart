@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:magic_workout_app/app/create_workout/presentation/screens/create_workout_screen.dart';
@@ -7,6 +8,7 @@ import 'package:magic_workout_app/core/extensions/build_context_extension.dart';
 import 'package:magic_workout_app/core/router/app_route.dart';
 import 'package:magic_workout_app/core/widgets/app_floating_button.dart';
 import 'package:magic_workout_app/core/widgets/screen_with_title.dart';
+import 'package:magic_workout_app/generated/locale_keys.g.dart';
 
 class WorkoutDetailScreen extends StatefulWidget {
   const WorkoutDetailScreen({
@@ -50,12 +52,13 @@ class _WorkoutDetailScreenState extends State<WorkoutDetailScreen> {
               padding: const EdgeInsets.symmetric(horizontal: 20),
               children: [
                 Text(
-                  displayWorkout.formattedCreationDate,
+                  LocaleKeys.workout_created_on
+                        .tr(args: [displayWorkout.creationDateFormatted]),
                   style: context.textTheme.bodySmall,
                 ),
                 const SizedBox(height: 40),
                 Text(
-                  'Workout Sets',
+                  LocaleKeys.core_workout_sets.tr(),
                   style: context.textTheme.bodyMedium!.copyWith(
                     fontWeight: FontWeight.bold,
                   ),

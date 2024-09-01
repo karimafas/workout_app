@@ -27,21 +27,22 @@ void main() {
   testWidgets(
     'HomeScreen should render correctly',
     (WidgetTester tester) async {
-      when(() => retrieveWorkoutsUseCase.call(any()))
-          .thenAnswer((_) async => [mockWorkout]);
+      await tester.runAsync(() async {
+        when(() => retrieveWorkoutsUseCase.call(any()))
+            .thenAnswer((_) async => [mockWorkout]);
 
-      await tester.pumpWidget(
-        TestWidgetWrapper(
-          widget: BlocProvider(
+        final widget = await buildLocalisedWidget(
+          child: BlocProvider(
             create: (_) => HomeBloc(),
             child: const HomeScreen(),
           ),
-        ),
-      );
-      await tester.pumpAndSettle();
+        );
+        await tester.pumpWidget(widget);
+        await tester.pumpAndSettle();
 
-      expect(find.text('Your Workouts'), findsOneWidget);
-      expect(find.byType(AppFloatingButton), findsOneWidget);
+        expect(find.text('Your Workouts'), findsOneWidget);
+        expect(find.byType(AppFloatingButton), findsOneWidget);
+      });
     },
   );
 }

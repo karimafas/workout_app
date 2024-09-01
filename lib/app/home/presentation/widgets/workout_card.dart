@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:magic_workout_app/app/home/domain/entities/workout.dart';
@@ -5,6 +6,7 @@ import 'package:magic_workout_app/core/assets/app_image.dart';
 import 'package:magic_workout_app/core/extensions/build_context_extension.dart';
 import 'package:magic_workout_app/core/router/app_route.dart';
 import 'package:magic_workout_app/core/widgets/app_floating_button.dart';
+import 'package:magic_workout_app/generated/locale_keys.g.dart';
 
 class WorkoutCard extends StatelessWidget {
   const WorkoutCard({
@@ -76,7 +78,7 @@ class WorkoutCard extends StatelessWidget {
                         ),
                         TextSpan(
                           text:
-                              '${workout.sets.length == 1 ? 'set' : 'sets'} • ',
+                              '${(workout.sets.length == 1 ? LocaleKeys.home_set : LocaleKeys.home_sets).tr()} • ',
                           style: context.textTheme.bodySmall!.copyWith(
                             color: context.colorScheme.surface,
                           ),
@@ -89,7 +91,7 @@ class WorkoutCard extends StatelessWidget {
                           ),
                         ),
                         TextSpan(
-                          text: 'kg avg. weight',
+                          text: LocaleKeys.home_avg_weight.tr(),
                           style: context.textTheme.bodySmall!.copyWith(
                             color: context.colorScheme.surface,
                           ),
@@ -98,7 +100,8 @@ class WorkoutCard extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    workout.formattedCreationDate,
+                    LocaleKeys.workout_created_on
+                        .tr(args: [workout.creationDateFormatted]),
                     style: context.textTheme.bodySmall!.copyWith(
                       color: context.colorScheme.secondary,
                     ),

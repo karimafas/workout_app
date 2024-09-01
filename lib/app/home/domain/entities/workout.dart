@@ -17,6 +17,5 @@ class Workout extends WorkoutModel {
     return sets.fold(0.0, (sum, set) => sum + set.weightInKg) / sets.length;
   }
 
-  String get formattedCreationDate =>
-      'Created on ${commonDateFormat.format(createdAt)}';
+  String get creationDateFormatted => commonDateFormat.format(createdAt);
 }

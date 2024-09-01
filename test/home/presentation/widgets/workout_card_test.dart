@@ -10,29 +10,31 @@ void main() {
   testWidgets(
     'WorkoutCard should render correctly',
     (WidgetTester tester) async {
-      await tester.pumpWidget(
-        TestWidgetWrapper(
+      await tester.runAsync(() async {
+        final widget = await buildLocalisedWidget(
+            child: TestWidgetWrapper(
           widget: WorkoutCard(
             workout: mockWorkout,
             onDelete: () {},
           ),
-        ),
-      );
-      await tester.pumpAndSettle();
+        ));
+        await tester.pumpWidget(widget);
+        await tester.pumpAndSettle();
 
-      expect(find.byType(Image), findsOneWidget);
-      expect(find.text(mockWorkout.name), findsOneWidget);
-      expect(
-        find.text(
-            '1 set • ${mockWorkout.averageWeight.toStringAsFixed(1)}kg avg. weight',
-            findRichText: true),
-        findsOneWidget,
-      );
-      expect(
-        find.text(
-            'Created on ${commonDateFormat.format(mockWorkout.createdAt)}'),
-        findsOneWidget,
-      );
+        expect(find.byType(Image), findsOneWidget);
+        expect(find.text(mockWorkout.name), findsOneWidget);
+        expect(
+          find.text(
+              '1 set • ${mockWorkout.averageWeight.toStringAsFixed(1)}kg avg. weight',
+              findRichText: true),
+          findsOneWidget,
+        );
+        expect(
+          find.text(
+              'Created on ${commonDateFormat.format(mockWorkout.createdAt)}'),
+          findsOneWidget,
+        );
+      });
     },
   );
 }

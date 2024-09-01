@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -13,6 +14,7 @@ import 'package:magic_workout_app/core/service_locator/service_locator.dart';
 import 'package:magic_workout_app/core/widgets/app_button.dart';
 import 'package:magic_workout_app/core/widgets/app_floating_button.dart';
 import 'package:magic_workout_app/core/widgets/screen_with_title.dart';
+import 'package:magic_workout_app/generated/locale_keys.g.dart';
 import 'package:uuid/uuid.dart';
 
 enum CreateWorkoutScreenType {
@@ -73,15 +75,19 @@ class _CreateWorkoutViewState extends State<CreateWorkoutView> {
           context.read<HomeBloc>().add(const RetrieveWorkouts());
           context.pop(state.updatedWorkout);
         } else if (state is CreateWorkoutFailure) {
-          context.showToast('There was an issue creating your workout.');
+          context.showToast(LocaleKeys.create_creation_issue.tr());
         } else if (state is UpdateWorkoutFailure) {
-          context.showToast('There was an issue updating your workout.');
+          context.showToast(LocaleKeys.create_update_issue.tr());
         }
       },
       child: Scaffold(
         floatingActionButton: AppButton(
-          title:
-              '${widget.screenType == CreateWorkoutScreenType.create ? 'Create' : 'Save'} Workout',
+          title: LocaleKeys.create_complete_workout.tr(args: [
+            (widget.screenType == CreateWorkoutScreenType.create
+                    ? LocaleKeys.create_create
+                    : LocaleKeys.create_save)
+                .tr()
+          ]),
           icon: Icons.sports_martial_arts_rounded,
           onTap: () {
             if (widget.screenType.isEditing) {
@@ -99,8 +105,12 @@ class _CreateWorkoutViewState extends State<CreateWorkoutView> {
           onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
           child: ScreenWithTitle(
             key: ValueKey(widget.screenType),
-            title:
-                '${widget.screenType == CreateWorkoutScreenType.create ? 'Create a' : 'Edit'} Workout',
+            title: LocaleKeys.create_complete_workout.tr(args: [
+              (widget.screenType == CreateWorkoutScreenType.create
+                      ? LocaleKeys.create_create_a
+                      : LocaleKeys.create_edit)
+                  .tr()
+            ]),
             showBackButton: true,
             children: [
               Expanded(
@@ -111,7 +121,7 @@ class _CreateWorkoutViewState extends State<CreateWorkoutView> {
                     TextFormField(
                       controller: nameController,
                       decoration: InputDecoration(
-                        label: const Text('Workout name'),
+                        label: Text(LocaleKeys.create_workout_name.tr()),
                         labelStyle: context.textTheme.bodySmall,
                       ),
                       style: context.textTheme.bodyMedium,
@@ -119,14 +129,14 @@ class _CreateWorkoutViewState extends State<CreateWorkoutView> {
                     ),
                     const SizedBox(height: 80),
                     Text(
-                      'Workout Sets',
+                      LocaleKeys.core_workout_sets.tr(),
                       style: context.textTheme.bodyMedium!.copyWith(
                         fontWeight: FontWeight.bold,
                       ),
                     ),
                     const SizedBox(height: 5),
                     Text(
-                      'Add one or more sets to compose your workout.',
+                      LocaleKeys.create_add_sets.tr(),
                       style: context.textTheme.bodySmall,
                     ),
                     if (sets.isNotEmpty) const SizedBox(height: 20),

@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -9,6 +10,7 @@ import 'package:magic_workout_app/core/extensions/build_context_extension.dart';
 import 'package:magic_workout_app/core/router/app_route.dart';
 import 'package:magic_workout_app/core/widgets/app_floating_button.dart';
 import 'package:magic_workout_app/core/widgets/screen_with_title.dart';
+import 'package:magic_workout_app/generated/locale_keys.g.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -34,8 +36,8 @@ class _HomeScreenState extends State<HomeScreen> {
           children: [
             Icon(Icons.error_rounded, color: context.colorScheme.primary),
             const SizedBox(height: 15),
-            const Text(
-              'There was an error retrieving workouts.',
+            Text(
+              LocaleKeys.home_retrieval_error.tr(),
               textAlign: TextAlign.center,
             ),
           ],
@@ -43,7 +45,7 @@ class _HomeScreenState extends State<HomeScreen> {
       );
     } else if (state is HomeWorkoutsRetrieved) {
       body = ScreenWithTitle(
-        title: 'Your Workouts',
+        title: LocaleKeys.home_your_workouts.tr(),
         children: [
           Expanded(
             child: ListView(
@@ -73,7 +75,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return BlocListener<HomeBloc, HomeState>(
       listener: (context, state) {
         if (state is HomeWorkoutsDeletionError) {
-          context.showToast('There was an issue deleting your workout.');
+          context.showToast(LocaleKeys.home_deletion_error.tr());
         }
       },
       child: Scaffold(

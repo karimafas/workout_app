@@ -1,0 +1,27 @@
+{
+  "core": {
+    "title": "Workout App",
+    "workout_sets": "Workout Sets"
+  },
+  "home": {
+    "retrieval_error": "There was an error retrieving workouts.",
+    "deletion_error": "There was an issue deleting your workout.",
+    "your_workouts": "Your Workouts",
+    "no_workouts_added": "You haven't added any workouts yet...",
+    "avg_weight": "kg avg. weight",
+    "set": "set",
+    "sets": "sets"
+  },
+  "create": {
+    "creation_issue": "There was an issue creating your workout.",
+    "update_issue": "There was an issue updating your workout.",
+    "create": "Create",
+    "create_a": "Create a",
+    "save": "Save",
+    "edit": "Edit",
+    "complete_workout": "{} Workout",
+    "workout_name": "Workout Name",
+    "add_sets": "Add one or more sets to compose your workout."
+  },
+  "workout": { "created_on": "Created on {}" }
+}

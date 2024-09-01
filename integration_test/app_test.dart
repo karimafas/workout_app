@@ -12,6 +12,8 @@ import 'package:magic_workout_app/core/widgets/app_floating_button.dart';
 import 'package:magic_workout_app/core/widgets/screen_back_button.dart';
 import 'package:magic_workout_app/main.dart' as app;
 
+import '../test/utils/widget_test_utils.dart';
+
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
 
@@ -28,47 +30,49 @@ void main() {
       testWidgets(
         'create workout flow',
         (tester) async {
-          await tester.pumpWidget(const app.MyApp());
-          await tester.pumpAndSettle();
+          await tester.runAsync(() async {
+            await pumpLocalisedApp(tester);
+            await tester.pumpAndSettle();
 
-          final fab = find.byType(AppFloatingButton);
-          await tester.tap(fab);
+            final fab = find.byType(AppFloatingButton);
+            await tester.tap(fab);
 
-          await tester.pumpAndSettle();
+            await tester.pumpAndSettle();
 
-          await tester.ensureVisible(find.byType(CreateWorkoutScreen));
+            await tester.ensureVisible(find.byType(CreateWorkoutScreen));
 
-          final field = find.byType(TextFormField);
-          await tester.enterText(field, workoutName);
+            final field = find.byType(TextFormField);
+            await tester.enterText(field, workoutName);
 
-          final setFab = find.byType(AppFloatingButton);
-          await tester.tap(setFab);
+            final setFab = find.byType(AppFloatingButton);
+            await tester.tap(setFab);
 
-          await tester.pumpAndSettle();
+            await tester.pumpAndSettle();
 
-          final bottomSheet = find.byType(CreateSetBottomSheet);
-          await tester.ensureVisible(bottomSheet);
+            final bottomSheet = find.byType(CreateSetBottomSheet);
+            await tester.ensureVisible(bottomSheet);
 
-          final addToWorkoutBtn = find.text('Add to Workout');
-          await tester.tap(addToWorkoutBtn);
+            final addToWorkoutBtn = find.text('Add to Workout');
+            await tester.tap(addToWorkoutBtn);
 
-          await tester.pumpAndSettle();
+            await tester.pumpAndSettle();
 
-          final createWorkoutBtn = find.text('Create Workout');
-          await tester.tap(createWorkoutBtn);
+            final createWorkoutBtn = find.text('Create Workout');
+            await tester.tap(createWorkoutBtn);
 
-          await tester.pumpAndSettle();
+            await tester.pumpAndSettle();
 
-          final homeScreen = find.byType(HomeScreen);
-          await tester.ensureVisible(homeScreen);
+            final homeScreen = find.byType(HomeScreen);
+            await tester.ensureVisible(homeScreen);
 
-          final workoutCard = find.byType(WorkoutCard);
-          await tester.ensureVisible(workoutCard);
-          await tester.ensureVisible(find.text(workoutName));
-          await tester.ensureVisible(
-              find.text('1 set • 2.5kg avg. weight', findRichText: true));
-          await tester.ensureVisible(find
-              .text('Created on ${commonDateFormat.format(DateTime.now())}'));
+            final workoutCard = find.byType(WorkoutCard);
+            await tester.ensureVisible(workoutCard);
+            await tester.ensureVisible(find.text(workoutName));
+            await tester.ensureVisible(
+                find.text('1 set • 2.5kg avg. weight', findRichText: true));
+            await tester.ensureVisible(find
+                .text('Created on ${commonDateFormat.format(DateTime.now())}'));
+          });
         },
       );
     },
@@ -77,7 +81,7 @@ void main() {
   testWidgets(
     'edit workout flow',
     (tester) async {
-      await tester.pumpWidget(const app.MyApp());
+      await pumpLocalisedApp(tester);
       await tester.pumpAndSettle();
 
       final workoutCard = find.byType(WorkoutCard);
@@ -114,7 +118,7 @@ void main() {
   testWidgets(
     'delete workout flow',
     (tester) async {
-      await tester.pumpWidget(const app.MyApp());
+      await pumpLocalisedApp(tester);
       await tester.pumpAndSettle();
 
       final workoutCard = find.byType(WorkoutCard);

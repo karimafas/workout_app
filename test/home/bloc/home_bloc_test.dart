@@ -1,8 +1,8 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:magic_workout_app/app/home/domain/entities/workout.dart';
-import 'package:magic_workout_app/app/home/domain/usecases/delete_workout_use_case.dart';
-import 'package:magic_workout_app/app/home/domain/usecases/retrieve_workouts_use_case.dart';
-import 'package:magic_workout_app/app/home/presentation/bloc/home_bloc.dart';
+import 'package:magic_workout_app/app/features/home/domain/entities/workout.dart';
+import 'package:magic_workout_app/app/features/home/domain/usecases/delete_workout_use_case.dart';
+import 'package:magic_workout_app/app/features/home/domain/usecases/retrieve_workouts_use_case.dart';
+import 'package:magic_workout_app/app/features/home/presentation/bloc/home_bloc.dart';
 import 'package:magic_workout_app/core/logger/logger_service.dart';
 import 'package:magic_workout_app/core/service_locator/service_locator.dart';
 import 'package:magic_workout_app/core/usecases/use_case.dart';

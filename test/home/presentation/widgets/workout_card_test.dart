@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:magic_workout_app/app/home/presentation/widgets/workout_card.dart';
+import 'package:magic_workout_app/app/features/home/presentation/widgets/workout_card.dart';
 import 'package:magic_workout_app/core/constants/date_format_constants.dart';
 
 import '../../../data/test_data.dart';

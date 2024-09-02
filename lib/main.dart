@@ -1,7 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:magic_workout_app/app/home/presentation/bloc/home_bloc.dart';
+import 'package:magic_workout_app/app/features/home/presentation/bloc/home_bloc.dart';
 import 'package:magic_workout_app/core/router/app_router.dart';
 import 'package:magic_workout_app/core/service_locator/service_locator.dart';
 import 'package:magic_workout_app/core/styles/app_theme.dart';

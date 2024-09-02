@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:magic_workout_app/app/home/presentation/widgets/empty_workout_list.dart';
+import 'package:magic_workout_app/app/features/home/presentation/widgets/empty_workout_list.dart';
 
 import '../../../utils/widget_test_utils.dart';
 

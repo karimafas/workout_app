@@ -1,7 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:magic_workout_app/app/home/data/enums/exercise.dart';
-import 'package:magic_workout_app/app/home/data/repositories/home_repository_impl.dart';
-import 'package:magic_workout_app/app/home/domain/entities/workout.dart';
+import 'package:magic_workout_app/app/features/home/data/enums/exercise.dart';
+import 'package:magic_workout_app/app/features/home/data/repositories/home_repository_impl.dart';
+import 'package:magic_workout_app/app/features/home/domain/entities/workout.dart';
 import 'package:magic_workout_app/core/local_storage/local_storage_service.dart';
 import 'package:magic_workout_app/core/service_locator/service_locator.dart';
 import 'package:mocktail/mocktail.dart';

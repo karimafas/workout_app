@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:magic_workout_app/app/home/domain/usecases/delete_workout_use_case.dart';
+import 'package:magic_workout_app/app/features/home/domain/usecases/delete_workout_use_case.dart';
 import 'package:mocktail/mocktail.dart';
 
 import '../../../mocks/mocks.dart';
